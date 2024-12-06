@@ -8,7 +8,6 @@ public class AvatarManager : MonoBehaviour
 {
     public GameObject gameManagerCanvas; // 게임매니저 캔버스
     public GameObject backToMainCanvas;
-    public GameObject chatOverlayCanvas;
     public GameObject[] avatarCanvases; // 각 아바타의 고유 캔버스
     public GameObject[] avatars; // 아바타 배열
     public CustomCameraController customCameraController; // 카메라 컨트롤러
@@ -23,7 +22,7 @@ public class AvatarManager : MonoBehaviour
         Debug.Log("AvatarManager Awake started");
 
         // GameManagerCanvas를 제외한 모든 자식 오브젝트를 Avatar로 간주
-        int avatarCount = transform.childCount - 3;
+        int avatarCount = transform.childCount - 2;
         Debug.Log($"Found {avatarCount} avatars under AvatarManager");
 
         avatarCanvases = new GameObject[avatarCount];
@@ -47,8 +46,7 @@ public class AvatarManager : MonoBehaviour
             avatarCanvases[i] = canvas.gameObject;
         }
          // BackToMainCanvas는 마지막 자식으로 가정
-        backToMainCanvas = transform.GetChild(transform.childCount - 2).gameObject;
-        chatOverlayCanvas = transform.GetChild(transform.childCount - 1).gameObject;
+        backToMainCanvas = transform.GetChild(transform.childCount - 1).gameObject;
     
     }
     
@@ -58,7 +56,6 @@ public class AvatarManager : MonoBehaviour
         // 초기 상태: GameManagerCanvas 활성화, 모든 아바타 및 캔버스 비활성화
         gameManagerCanvas.SetActive(true);
         backToMainCanvas.SetActive(false);
-        chatOverlayCanvas.SetActive(false);
 
         foreach (var canvas in avatarCanvases)
         {
@@ -201,7 +198,6 @@ public class AvatarManager : MonoBehaviour
         // 게임매니저 캔버스 활성화
         gameManagerCanvas.SetActive(true);
         backToMainCanvas.SetActive(false); // BackToMainCanvas 비활성화
-        chatOverlayCanvas.SetActive(false); // ChatOverlayCanvas 비활성화
     }
 
 
@@ -218,7 +214,6 @@ public class AvatarManager : MonoBehaviour
         backToMainCanvas.SetActive(false);
 
         avatarCanvases[activeAvatarIndex].SetActive(false);
-        chatOverlayCanvas.SetActive(true);
 
         // 현재 활성화된 아바타의 isActive를 비활성화
         var currentModel = avatars[activeAvatarIndex].transform.Find("Model");
@@ -261,7 +256,6 @@ public class AvatarManager : MonoBehaviour
 
     public void CloseChatOverlay()
     {
-        chatOverlayCanvas.SetActive(false);
 
         avatarCanvases[activeAvatarIndex].SetActive(true);
         backToMainCanvas.SetActive(true);
